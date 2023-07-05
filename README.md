@@ -69,3 +69,7 @@ You can author your README using Visual Studio Code. Here are some useful editor
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
+
+# dev guidelines
+
+- Read [this](https://code.visualstudio.com/api/references/activation-events#onStartupFinished) link to understand why `onStartupFinished` is used as an `activationEvent`.

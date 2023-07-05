@@ -9,17 +9,13 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "clippy.helloWorld",
         "title": "Hello World"
-      },
-      {
-        "command": "clippy.helloError",
-        "title": "Hello Error"
       }
     ]
   },
