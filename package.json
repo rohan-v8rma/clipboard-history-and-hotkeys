@@ -16,6 +16,10 @@
       {
         "command": "clippy.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "clippy.helloError",
+        "title": "Hello Error"
       }
     ]
   },

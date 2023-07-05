@@ -17,8 +17,24 @@ export function activate(context: vscode.ExtensionContext) {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from Clippy!');
+		
 	});
 
+	/* 
+	This has nothing to do with the functioning of the command.
+	It just ensures that once the extension is de-activated, the command is disposed of as well.
+	*/
+	context.subscriptions.push(disposable);
+
+	disposable = vscode.commands.registerCommand('clippy.helloError', () => {
+		// Used a VS code API call other than showInformationMessage
+		vscode.window.showErrorMessage('Hello Bruh');
+	});
+
+	/* 
+	This has nothing to do with the functioning of the command.
+	It just ensures that once the extension is de-activated, the command is disposed of as well.
+	*/
 	context.subscriptions.push(disposable);
 }
 
