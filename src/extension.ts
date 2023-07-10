@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+import { pollClipboard } from './utils';
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -11,6 +13,15 @@ export function activate(context: vscode.ExtensionContext) {
 	* This line of code will only be executed once when your extension is activated
 	*/
 	// console.log('Congratulations, your extension "clippy" is now active!');
+
+	/*
+	? An alternative method for debugging. 
+	TODO: Refer https://stackoverflow.com/questions/34085330/how-to-write-to-log-from-vscode-extension
+	*/
+	// const outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel("Clippy");
+	// outputChannel.show();
+	// outputChannel.appendLine("Debugging");
+
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -52,15 +63,23 @@ export function activate(context: vscode.ExtensionContext) {
 				context: vscode.CompletionContext
 			) {
 
-				const simpleCompletion = new vscode.CompletionItem('Hello World!');
-				// simpleCompletion.detail = "sample";
-				// simpleCompletion.filterText = "test";
-				// simpleCompletion.insertText = "blablabla";
-				// simpleCompletion.label = "test";
-				return [
-					simpleCompletion,
-					...completionItems
-				];
+				const linePrefix = document.lineAt(position).text.slice(0, position.character);
+				if(linePrefix.endsWith('%')) {
+					
+					// This is used to get the position of the % sign.
+					const prevPosition: vscode.Position = new vscode.Position(position.line, position.character - 1);
+
+					completionItems.forEach((completionItem: vscode.CompletionItem) => {
+						completionItem.additionalTextEdits = [
+							// This removes the % sign, irrespecitve of the completion item selected.
+							vscode.TextEdit.delete(new vscode.Range(prevPosition, position))
+						];
+					});
+
+					return completionItems;
+				}
+				
+				return [];
 			}
 		},
 		// This is the trigger character
@@ -71,29 +90,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// This variable will be available to the command handler below, since a closure is formed.
 	let previousClipboardContent: string = '';
-
-	function checkClipboard() {
-        vscode.env.clipboard.readText().then((text) => {
-            const clipboardContent: string = text;
-
-            if (clipboardContent !== previousClipboardContent) {
-                vscode.window.showInformationMessage(clipboardContent);
-				
-				// Creating a completion item using the new clipboard content.
-				const completionItem: vscode.CompletionItem = new vscode.CompletionItem(clipboardContent);
-				
-				completionItems.push(completionItem);
-				console.log(completionItems);
-            }
-
-            previousClipboardContent = clipboardContent;
-
-            setTimeout(checkClipboard, 100); // Schedule the next check after the specified delay
-        });
-	};
 	
-	checkClipboard();
-	
+	pollClipboard(previousClipboardContent, completionItems);
 }
 
 // This method is called when your extension is deactivated
