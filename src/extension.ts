@@ -75,6 +75,9 @@ export function activate(context: vscode.ExtensionContext) {
 						// This removes the % sign, irrespective of the completion item selected.
 						vscode.TextEdit.delete(new vscode.Range(prevPosition, position))
 					];
+
+					// TODO: Optional Feature
+					// completionItem.label = (index + 1).toString() + ". "+ completionItem.label;
 				});
 
 
