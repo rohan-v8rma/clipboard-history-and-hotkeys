@@ -61,33 +61,24 @@ export function activate(context: vscode.ExtensionContext) {
 				position: vscode.Position,
 				token: vscode.CancellationToken,
 				context: vscode.CompletionContext
-			) {
-
-				// What this does is, it gets the entirety of the current line; what has been typed till now.
-				const linePrefix = document.lineAt(position).text.slice(0, position.character);
-
-				// Next, it checks if the line ends with %.
-				if(linePrefix.endsWith('%')) {
-					
-					/* 
-					This is used to get the position of the % sign.
-					
-					We do this so that when a completion item is selected, the % sign is replaced by the 
-					completion item.
-					*/
-					const prevPosition: vscode.Position = new vscode.Position(position.line, position.character - 1);
-
-					completionItems.forEach((completionItem: vscode.CompletionItem) => {
-						completionItem.additionalTextEdits = [
-							// This removes the % sign, irrespective of the completion item selected.
-							vscode.TextEdit.delete(new vscode.Range(prevPosition, position))
-						];
-					});
-
-					return completionItems;
-				}
+			) {					
+				/* 
+				This is used to get the position of the % sign.
 				
-				return [];
+				We do this so that when a completion item is selected, the % sign is replaced by the 
+				completion item.
+				*/
+				const prevPosition: vscode.Position = new vscode.Position(position.line, position.character - 1);
+
+				completionItems.forEach((completionItem: vscode.CompletionItem, index: number) => {
+					completionItem.additionalTextEdits = [
+						// This removes the % sign, irrespective of the completion item selected.
+						vscode.TextEdit.delete(new vscode.Range(prevPosition, position))
+					];
+				});
+
+
+				return completionItems;
 			}
 		},
 		// This is the trigger character
