@@ -16,6 +16,67 @@
       {
         "command": "clippy.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "clippy.fetchItem",
+        "title": "Fetch Item",
+        "when": "editorTextFocus"
+      }
+    ],
+    "keybindings": [
+      {
+          "key": "ctrl+shift+1",
+          "command": "clippy.fetchItem",
+          "args": 1,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+2",
+          "command": "clippy.fetchItem",
+          "args": 2,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+3",
+          "command": "clippy.fetchItem",
+          "args": 3,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+4",
+          "command": "clippy.fetchItem",
+          "args": 4,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+5",
+          "command": "clippy.fetchItem",
+          "args": 5,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+6",
+          "command": "clippy.fetchItem",
+          "args": 6,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+7",
+          "command": "clippy.fetchItem",
+          "args": 7,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+8",
+          "command": "clippy.fetchItem",
+          "args": 8,
+          "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+9",
+          "command": "clippy.fetchItem",
+          "args": 9,
+          "when": "editorTextFocus"
       }
     ]
   },
