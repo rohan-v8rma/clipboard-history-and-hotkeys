@@ -102,49 +102,44 @@ export function activate(context: vscode.ExtensionContext) {
 			There is surely to be an active text editor, because this command is only executed
 			when "editorTextFocus".
 
-			But, we still need to perform this check, to avoid typescript errors.
+			But, we still need to perform an optional chaining, to avoid typescript errors.
 			*/
-			if (editor) {
-
-				editor.edit(editBuilder => {
-						
-					const textToBeInserted: string = String(
-						/*
-						Ternary expression that checks if a particular index in the completion items array is undefined or NOT. 
-						
-						If not, we choose either the `insertText` or `label` property as the text that is to be inserted.
-
-						If it is undefined, we keep "NO SUCH ITEM" as the text to be inserted.
-						*/
-						completionItems[itemNum - 1] 
-						? 
-						/* 
-						If `insertText` is NOT undefined (checked using non-nullish coalescing operator), it means the `label` is different from the actual text. In that case, we use the `insertText`	property which holds the actual text that needs to be copied.
-
-						If `insertText` is undefined, it is because the `label` has NOT been changed and is the same as the actual text that needs to be copied. So, we just use the `label` property to get the text we need.
-						*/
-						completionItems[itemNum - 1].insertText ?? 
-						completionItems[itemNum - 1].label
-						:
-						"NO SUCH ITEM"
-					);
+			editor?.edit(editBuilder => {
 					
-
-					editBuilder.insert(
-						editor.selection.active, 
-						/* 
-						Even though we have checked that the property is not undefined;
-
-						We still use the String constructor, to surpass the typescript error,
-						which doesn't allow assignment of a property that might be undefined
-						to a String parameter.
-						*/
-						textToBeInserted
-					);
+				const textToBeInserted: string = String(
+					/*
+					Ternary expression that checks if a particular index in the completion items array is undefined or NOT. 
 					
-					
-				});
-			}
+					If not, we choose either the `insertText` or `label` property as the text that is to be inserted.
+
+					If it is undefined, we keep "NO SUCH ITEM" as the text to be inserted.
+					*/
+					completionItems[itemNum - 1] 
+					? 
+					/* 
+					If `insertText` is NOT undefined (checked using non-nullish coalescing operator), it means the `label` is different from the actual text. In that case, we use the `insertText`	property which holds the actual text that needs to be copied.
+
+					If `insertText` is undefined, it is because the `label` has NOT been changed and is the same as the actual text that needs to be copied. So, we just use the `label` property to get the text we need.
+					*/
+					completionItems[itemNum - 1].insertText ?? 
+					completionItems[itemNum - 1].label
+					:
+					"NO SUCH ITEM"
+				);
+				
+
+				editBuilder.insert(
+					editor.selection.active, 
+					/* 
+					Even though we have checked that the property is not undefined;
+
+					We still use the String constructor, to surpass the typescript error,
+					which doesn't allow assignment of a property that might be undefined
+					to a String parameter.
+					*/
+					textToBeInserted
+				);
+			});
 		}
 	);
 

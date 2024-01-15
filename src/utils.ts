@@ -5,7 +5,7 @@ const numOfCompletionItems : number = 5;
 // This variable helps in the sequencing of completion items according to the time at which they were copied, instead of alphabetical ordering.
 let itemSequenceNum : number = 1e8;
 
-function updateCompletionItems(
+export function updateCompletionItems(
     completionItem: vscode.CompletionItem, 
     completionItems: vscode.CompletionItem[]
     ): void {
@@ -23,7 +23,7 @@ function updateCompletionItems(
 }
 
 
-function pollClipboard(
+export function pollClipboard(
     previousClipboardContent: string, 
     completionItems: vscode.CompletionItem[]
     ): void {
@@ -56,7 +56,3 @@ function pollClipboard(
         setTimeout(pollClipboard, 100, previousClipboardContent, completionItems); 
     });
 };
-
-
-
-export { pollClipboard, updateCompletionItems };
