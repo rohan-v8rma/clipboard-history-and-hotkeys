@@ -1,6 +1,6 @@
 {
-  "name": "clippy",
-  "displayName": "Clippy",
+  "name": "log-copypluspaste",
+  "displayName": "Log(Copy + Paste)",
   "description": "An extension that allows you to see your clipboard history",
   "version": "0.0.1",
   "engines": {
@@ -14,11 +14,11 @@
   "contributes": {
     "commands": [
       {
-        "command": "clippy.helloWorld",
+        "command": "log-copypluspaste.helloWorld",
         "title": "Hello World"
       },
       {
-        "command": "clippy.fetchItem",
+        "command": "log-copypluspaste.fetchItem",
         "title": "Fetch Item",
         "when": "editorTextFocus"
       }
@@ -26,55 +26,55 @@
     "keybindings": [
       {
           "key": "ctrl+shift+1",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 1,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+2",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 2,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+3",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 3,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+4",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 4,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+5",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 5,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+6",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 6,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+7",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 7,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+8",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 8,
           "when": "editorTextFocus"
       },
       {
           "key": "ctrl+shift+9",
-          "command": "clippy.fetchItem",
+          "command": "log-copypluspaste.fetchItem",
           "args": 9,
           "when": "editorTextFocus"
       }

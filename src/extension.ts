@@ -12,13 +12,13 @@ export function activate(context: vscode.ExtensionContext) {
 	* Use the console to output diagnostic information (console.log) and errors (console.error)
 	* This line of code will only be executed once when your extension is activated
 	*/
-	// console.log('Congratulations, your extension "clippy" is now active!');
+	// console.log('Congratulations, your extension "log-copypluspaste" is now active!');
 
 	/*
 	? An alternative method for debugging. 
 	TODO: Refer https://stackoverflow.com/questions/34085330/how-to-write-to-log-from-vscode-extension
 	*/
-	// const outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel("Clippy");
+	// const outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel("Log(Copy + Paste)");
 	// outputChannel.show();
 	// outputChannel.appendLine("Debugging");
 
@@ -27,11 +27,11 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 	let disposable : vscode.Disposable = vscode.commands.registerCommand(
-		'clippy.helloWorld', 
+		'log-copypluspaste.helloWorld', 
 		() => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Clippy!');
+		vscode.window.showInformationMessage('Hello World from Log(Copy + Paste)!');
 		}
 	);
 
@@ -94,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	//* Command for pasting the items in clipboard directly, using keybind.
 	disposable = vscode.commands.registerCommand(
-		'clippy.fetchItem',
+		'log-copypluspaste.fetchItem',
 		(itemNum: number) => {
 			const editor = vscode.window.activeTextEditor;
 

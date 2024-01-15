@@ -1,8 +1,13 @@
-# clippy README
+# Log(Copy + Paste)
 
-This is the README for your extension "clippy". After writing up a brief description, we recommend including the following sections.
+An extension which keeps track of your last N copied items, making each of them easily available.
 
 ## Features
+
+- While in an open file in the editor, press the `%` prompt key to see the available keyboard items.
+- If you know which clipboard item you want, use the shortcut `Ctrl+Shift+[1-9]`, depending on which one you need.
+  - `Ctrl+Shift+1` gets the last copied item.
+  - `Ctrl+Shift+9` gets the 9th last copied item.
 
 Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
