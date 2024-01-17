@@ -5,14 +5,18 @@ let itemSequenceNum : number = 1e8;
 
 const workspaceConfig = vscode.workspace.getConfiguration('log-copypluspaste');
 
-const numOfCompletionItems: number = workspaceConfig.numberOfClipboardItems;
+const {
+    numberOfClipboardItems,
+    clipboardPollInterval
+} = workspaceConfig;
+
 
 export function updateCompletionItems(
     completionItem: vscode.CompletionItem, 
     completionItems: vscode.CompletionItem[]
     ): void {
     
-    if(completionItems.length === numOfCompletionItems) {
+    if(completionItems.length === numberOfClipboardItems) {
         /* 
         This removes the last completion item.
 
@@ -55,6 +59,6 @@ export function pollClipboard(
         previousClipboardContent = clipboardContent;
 
         // Schedule the next check after the specified delay
-        setTimeout(pollClipboard, 100, previousClipboardContent, completionItems); 
+        setTimeout(pollClipboard, clipboardPollInterval, previousClipboardContent, completionItems); 
     });
 };
