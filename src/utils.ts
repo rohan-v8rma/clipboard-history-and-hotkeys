@@ -1,9 +1,11 @@
 import * as vscode from 'vscode';
 
-const numOfCompletionItems : number = 5;
-
 // This variable helps in the sequencing of completion items according to the time at which they were copied, instead of alphabetical ordering.
 let itemSequenceNum : number = 1e8;
+
+const workspaceConfig = vscode.workspace.getConfiguration('log-copypluspaste');
+
+const numOfCompletionItems: number = workspaceConfig.numberOfClipboardItems;
 
 export function updateCompletionItems(
     completionItem: vscode.CompletionItem, 
