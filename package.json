@@ -11,7 +11,8 @@
     "vscode": "^1.79.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Keymaps"
   ],
   "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
@@ -88,7 +89,17 @@
           "args": 10,
           "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Log(Copy + Paste)",
+      "properties": {
+        "log-copypluspaste.numberOfClipboardItems": {
+          "type": "number",
+          "default": 10,
+          "description": "The number of clipboard items to store. (Default value of 10 ensures all paste keybinds are functional)."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
