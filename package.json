@@ -14,7 +14,9 @@
     "Other",
     "Keymaps"
   ],
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -30,64 +32,64 @@
     ],
     "keybindings": [
       {
-          "key": "ctrl+shift+1",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 1,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+1",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 1,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+2",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 2,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+2",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 2,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+3",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 3,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+3",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 3,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+4",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 4,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+4",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 4,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+5",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 5,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+5",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 5,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+6",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 6,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+6",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 6,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+7",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 7,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+7",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 7,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+8",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 8,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+8",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 8,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+9",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 9,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+9",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 9,
+        "when": "editorTextFocus"
       },
       {
-          "key": "ctrl+shift+10",
-          "command": "log-copypluspaste.fetchItem",
-          "args": 10,
-          "when": "editorTextFocus"
+        "key": "ctrl+shift+10",
+        "command": "log-copypluspaste.fetchItem",
+        "args": 10,
+        "when": "editorTextFocus"
       }
     ],
     "configuration": {
@@ -96,6 +98,8 @@
         "log-copypluspaste.numberOfClipboardItems": {
           "type": "number",
           "default": 10,
+          "minimum": 1,
+          "maximum": 100,
           "description": "The number of clipboard items to store. (Default value of 10 ensures all paste keybinds are functional)."
         }
       }
@@ -110,16 +114,17 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.79.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
+    "@types/vscode": "^1.79.0",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.2",
     "eslint": "^8.41.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.1.3",
-    "@vscode/test-electron": "^2.3.2"
+    "typescript": "^5.1.3"
   }
 }
