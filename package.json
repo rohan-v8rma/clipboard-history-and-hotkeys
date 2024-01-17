@@ -81,6 +81,12 @@
           "command": "log-copypluspaste.fetchItem",
           "args": 9,
           "when": "editorTextFocus"
+      },
+      {
+          "key": "ctrl+shift+10",
+          "command": "log-copypluspaste.fetchItem",
+          "args": 10,
+          "when": "editorTextFocus"
       }
     ]
   },
