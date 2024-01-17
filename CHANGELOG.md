@@ -1,9 +1,17 @@
-# Change Log
-
-All notable changes to the `Log(Copy + Paste)` extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
 ## [Unreleased]
 
-- Initial release
+## [0.0.1]
+
+### Added
+
+- The extension with its core functionality of storing clipboard items.
+
+## [0.0.2]
+
+### Added
+
+- Configurable settings for the number of clipboard items stored.
+
+### Removed
+
+- VSCode information bubbles, used for the purpose of debugging.
