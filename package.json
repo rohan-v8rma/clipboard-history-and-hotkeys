@@ -3,6 +3,7 @@
   "displayName": "Log(Copy + Paste)",
   "description": "An extension that allows you to see your clipboard history",
   "version": "0.0.1",
+  "publisher": "just-another-rohan-verma",
   "repository": {
     "type": "git",
     "url": "https://github.com/rohan-v8rma/log-copypluspaste.git"
