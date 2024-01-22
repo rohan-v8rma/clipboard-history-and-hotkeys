@@ -70,7 +70,11 @@ export function activate(context: vscode.ExtensionContext) {
 				We do this so that when a completion item is selected, the % sign is replaced by the 
 				completion item.
 				*/
-				const prevPosition: vscode.Position = new vscode.Position(position.line, position.character - 1);
+				const prevPosition: vscode.Position = new vscode.Position(
+					// We do this, to prevent invalid positions, as positions start from 0.
+					Math.max(position.line, 0), 
+					Math.max(position.character - 1, 0) 
+				);
 
 				completionItems.forEach((completionItem: vscode.CompletionItem, index: number) => {
 					completionItem.additionalTextEdits = [
