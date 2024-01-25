@@ -4,24 +4,22 @@ import { EXTENSION_NAME } from './constants';
 // This variable helps in the sequencing of completion items according to the time at which they were copied, instead of alphabetical ordering.
 let itemSequenceNum : number = 1e8;
 
-const workspaceConfig = vscode.workspace.getConfiguration(EXTENSION_NAME);
-
-const {
-    numberOfClipboardItems,
-    clipboardPollInterval
-} = workspaceConfig;
-
 
 export function updateCompletionItems(
     completionItem: vscode.CompletionItem, 
     completionItems: vscode.CompletionItem[]
     ): void {
-    
-    if(completionItems.length === numberOfClipboardItems) {
-        /* 
-        This removes the last completion item.
 
-        We do this so that the number of completion items in the list remains same.
+    // We access these workspace variables within the function call, so that the updated value is used for every.
+    const {
+        numberOfClipboardItems,
+    } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+    
+    while(completionItems.length >= numberOfClipboardItems) {
+        /* 
+        This removes the last completion item, until it is under the max limit of clipboard items.
+
+        We do this so that the number of completion items adheres to the max limit.
         */
         completionItems.pop();
     }
@@ -34,6 +32,22 @@ export function pollClipboard(
     previousClipboardContent: string, 
     completionItems: vscode.CompletionItem[]
     ): void {
+    
+    // We access these workspace variables within the function call, so that the updated value is used everytime.
+    const {
+        clipboardPollInterval,
+        numberOfClipboardItems,
+    } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+
+    while(completionItems.length > numberOfClipboardItems) {
+        /* 
+        This removes the last completion item, until it is equal to the max limit of clipboard items.
+
+        We do this so that the number of completion items adheres to the max limit.
+        */
+        completionItems.pop();
+    }
+
     vscode.env.clipboard.readText().then((text) => {
         const clipboardContent: string = text;
 

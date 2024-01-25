@@ -10,12 +10,11 @@ suite('Clipboard Functionality Test Suite', () => {
     test('Check if `numberOfClipboardItems` limit being enforced', async function() {
         this.timeout(0); // Eliminating the timeout threshold for this test.
 
-        const workspaceConfig = vscode.workspace.getConfiguration(EXTENSION_NAME);
-
         const {
-            numberOfClipboardItems,
-            clipboardPollInterval
-        } = workspaceConfig;
+         numberOfClipboardItems,
+         clipboardPollInterval
+        } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+
 
         vscode.window.showInformationMessage(clipboardPollInterval);
 

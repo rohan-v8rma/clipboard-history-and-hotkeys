@@ -5,9 +5,7 @@ import { EXTENSION_NAME } from '../constants';
 export async function writeNNumbersToClipboardOneByOne(
     n: number
 ) {
-    const workspaceConfig = vscode.workspace.getConfiguration(EXTENSION_NAME);
-
-    const { clipboardPollInterval } = workspaceConfig; 
+    const { clipboardPollInterval } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
     // return new Promise((resolve, reject) => {
     //     let tryingToWrite = n + 1;
