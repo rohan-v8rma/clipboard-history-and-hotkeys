@@ -6,15 +6,32 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "@stylistic"
     ],
     "rules": {
-        "@typescript-eslint/naming-convention": "warn",
-        "@typescript-eslint/semi": "warn",
         "curly": "warn",
         "eqeqeq": "warn",
         "no-throw-literal": "warn",
-        "semi": "off"
+        "sort-imports": ["error", {
+            "ignoreCase": true
+        }],
+        "sort-keys": ["error", "asc", {
+            "caseSensitive": false,
+            "natural": true
+        }],
+        "@stylistic/comma-spacing": "error",
+        "@stylistic/indent": ["error", 2],
+        "@stylistic/no-multi-spaces": "error",
+        "@stylistic/object-curly-newline": ["error",  {
+            "minProperties": 1
+        }],
+        // "@stylistic/object-property-newline": ["error", {
+        //     "allowAllPropertiesOnSameLine": false,
+        //     "allowMultiplePropertiesPerLine": false
+        // }],
+        "@stylistic/semi": "error",
+        "@typescript-eslint/naming-convention": "warn"
     },
     "ignorePatterns": [
         "out",
