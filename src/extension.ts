@@ -4,9 +4,15 @@ import * as vscode from 'vscode';
 
 import { pollClipboard } from './utils';
 
+import { EXTENSION_NAME } from './constants';
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+
+	const {
+		triggerCharacter
+	} = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
 	/* 
 	* Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -65,20 +71,20 @@ export function activate(context: vscode.ExtensionContext) {
 				context: vscode.CompletionContext
 			) {					
 				/* 
-				This is used to get the position of the % sign.
+				This is used to get the position of the TRIGGER CHARACTER
 				
-				We do this so that when a completion item is selected, the % sign is replaced by the 
+				We do this so that when a completion item is selected, the TRIGGER CHARACTER is replaced by the 
 				completion item.
 				*/
 				const prevPosition: vscode.Position = new vscode.Position(
 					// We do this, to prevent invalid positions, as positions start from 0.
 					Math.max(position.line, 0), 
-					Math.max(position.character - 1, 0) 
+					Math.max(position.character - triggerCharacter.length, 0) 
 				);
 
 				completionItems.forEach((completionItem: vscode.CompletionItem, index: number) => {
 					completionItem.additionalTextEdits = [
-						// This removes the % sign, irrespective of the completion item selected.
+						// This removes the TRIGGER CHARACTER, irrespective of the completion item selected.
 						vscode.TextEdit.delete(new vscode.Range(prevPosition, position))
 					];
 
@@ -91,7 +97,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		},
 		// This is the trigger character
-		'%'
+		triggerCharacter
 	);
 
 	context.subscriptions.push(provider);

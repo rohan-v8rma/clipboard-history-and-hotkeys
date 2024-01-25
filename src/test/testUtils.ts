@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { EXTENSION_NAME } from '../constants';
 
+
 export async function writeNNumbersToClipboardOneByOne(
     n: number
 ) {
@@ -69,11 +70,13 @@ export async function getCompletionItemsList() {
 
     // Trigger the completion provider.
     const position = new vscode.Position(0, 0);
+    
+    const { triggerCharacter } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
     return vscode.commands.executeCommand<vscode.CompletionList>(
         'vscode.executeCompletionItemProvider',
         uri,
         position,
-        '%'
+        triggerCharacter
     );
 }

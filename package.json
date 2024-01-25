@@ -95,6 +95,13 @@
     "configuration": {
       "title": "Log(Copy + Paste)",
       "properties": {
+        "log-copypluspaste.clipboardPollInterval": {
+          "type": "number",
+          "default": 100,
+          "minimum": 4,
+          "maximum": 2000,
+          "markdownDescription": "The intervals (in `ms`) at which the extension checks for new content in the clipboard. The minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure."
+        },
         "log-copypluspaste.numberOfClipboardItems": {
           "type": "number",
           "default": 10,
@@ -102,12 +109,11 @@
           "maximum": 100,
           "markdownDescription": "The number of clipboard items to store. Default value of `10` ensures all paste keybinds are functional."
         },
-        "log-copypluspaste.clipboardPollInterval": {
-          "type": "number",
-          "default": 100,
-          "minimum": 4,
-          "maximum": 2000,
-          "markdownDescription": "The intervals (in `ms`) at which the extension checks for new content in the clipboard. The minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure."
+        "log-copypluspaste.triggerCharacter": {
+          "type": "string",
+          "default": "%",
+          "maxLength": 1,
+          "markdownDescription": "The character that needs to be typed, to trigger the completion dropdown."
         }
       }
     }
