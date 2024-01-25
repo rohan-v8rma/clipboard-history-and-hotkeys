@@ -124,9 +124,12 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:fixquiet": "npm run lint:fix -- --quiet",
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^1.5.4",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
