@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
 import { EXTENSION_NAME } from '../constants';
 
+export async function waitForDelay(n: number): Promise<boolean> {
+  return new Promise((resolve) => setTimeout(resolve, n, true));
+}
 
 export async function writeNNumbersToClipboardOneByOne(
   n: number
@@ -52,13 +55,12 @@ export async function writeNNumbersToClipboardOneByOne(
       n--;
 
       // Waiting for the item to be added to CompletionItem array.
-      await new Promise((resolve) => setTimeout(resolve, clipboardPollInterval * 2, true));
+      await waitForDelay(clipboardPollInterval * 2);
     }
 
     resolve(true);
   });
 }
-
 
 export async function getCompletionItemsList() {
   // Create a mock document
@@ -76,5 +78,19 @@ export async function getCompletionItemsList() {
     uri,
     position,
     triggerCharacter
+  );
+}
+
+export function updateWorkspaceVariableValue<T>(propertyName: string, propertyValue: T): Thenable<void> {
+  const workspaceConfig = vscode.workspace.getConfiguration(EXTENSION_NAME);
+
+  // We write to global configuration, because an actual workspace is not open, during the test.
+  const configurationTarget = vscode.ConfigurationTarget.Global;
+
+  return workspaceConfig.update(
+    propertyName,
+    propertyValue,
+    configurationTarget,
+    false
   );
 }
