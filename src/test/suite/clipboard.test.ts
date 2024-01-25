@@ -3,15 +3,21 @@ import * as assert from 'assert';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-import { EXTENSION_NAME } from '../../constants';
-import { getCompletionItemsList, updateWorkspaceVariableValue, waitForDelay, writeNNumbersToClipboardOneByOne } from '../testUtils';
+
+import {
+  getCompletionItemsList, updateWorkspaceVariableValue, waitForDelay, writeNNumbersToClipboardOneByOne 
+} from '../testUtils';
+
+import {
+  EXTENSION_NAME 
+} from '../../constants';
 
 suite('Clipboard Functionality Test Suite', () => {
   test('Check if `numberOfClipboardItems` limit being enforced', async function() {
     this.timeout(0); // Eliminating the timeout threshold for this test.
 
     const {
-      numberOfClipboardItems,
+      numberOfClipboardItems
     } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
     await writeNNumbersToClipboardOneByOne(numberOfClipboardItems + 1);

@@ -10,12 +10,28 @@
         "@stylistic"
     ],
     "rules": {
-        "@typescript-eslint/naming-convention": "warn",
         "curly": "warn",
         "eqeqeq": "warn",
         "no-throw-literal": "warn",
+        "sort-imports": ["error", {
+            "ignoreCase": true
+        }],
+        "sort-keys": ["error", "asc", {
+            "caseSensitive": false,
+            "natural": true
+        }],
+        "@stylistic/comma-spacing": "error",
+        "@stylistic/indent": ["error", 2],
+        "@stylistic/no-multi-spaces": "error",
+        "@stylistic/object-curly-newline": ["error",  {
+            "minProperties": 1
+        }],
+        // "@stylistic/object-property-newline": ["error", {
+        //     "allowAllPropertiesOnSameLine": false,
+        //     "allowMultiplePropertiesPerLine": false
+        // }],
         "@stylistic/semi": "error",
-        "@stylistic/indent": ["error", 2]
+        "@typescript-eslint/naming-convention": "warn"
     },
     "ignorePatterns": [
         "out",

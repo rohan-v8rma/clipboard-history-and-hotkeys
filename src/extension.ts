@@ -2,9 +2,13 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import { pollClipboard } from './utils';
+import {
+  EXTENSION_NAME 
+} from './constants';
 
-import { EXTENSION_NAME } from './constants';
+import {
+  pollClipboard 
+} from './utils';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed

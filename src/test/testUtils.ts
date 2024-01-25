@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
-import { EXTENSION_NAME } from '../constants';
+import {
+  EXTENSION_NAME 
+} from '../constants';
 
 export async function waitForDelay(n: number): Promise<boolean> {
   return new Promise((resolve) => setTimeout(resolve, n, true));
@@ -8,7 +10,9 @@ export async function waitForDelay(n: number): Promise<boolean> {
 export async function writeNNumbersToClipboardOneByOne(
   n: number
 ) {
-  const { clipboardPollInterval } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+  const {
+    clipboardPollInterval 
+  } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
   // return new Promise((resolve, reject) => {
   //     let tryingToWrite = n + 1;
@@ -71,7 +75,9 @@ export async function getCompletionItemsList() {
   // Trigger the completion provider.
   const position = new vscode.Position(0, 0);
     
-  const { triggerCharacter } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+  const {
+    triggerCharacter 
+  } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
   return vscode.commands.executeCommand<vscode.CompletionList>(
     'vscode.executeCompletionItemProvider',
