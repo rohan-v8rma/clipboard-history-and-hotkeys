@@ -54,7 +54,7 @@ export function pollClipboard(
     const clipboardContent: string = text;
 
     if (clipboardContent !== previousClipboardContent) {
-      vscode.window.showInformationMessage(clipboardContent);
+      // vscode.window.showInformationMessage(clipboardContent);
             
       // Creating a completion item using the new clipboard content.
       const completionItem: vscode.CompletionItem = new vscode.CompletionItem(clipboardContent);

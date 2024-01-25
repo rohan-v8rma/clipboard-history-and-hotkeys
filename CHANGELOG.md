@@ -10,7 +10,13 @@
 
 ### Added
 
-- Configurable settings for the number of clipboard items stored.
+- Configurable settings for:
+  - Number of clipboard items stored
+  - Poll interval of system clipboard
+  - Trigger character used, for seeing completions.
+- Tests for:
+  - Clipboard items limit
+  - Reduction of clipboard items limit, while extension is running.
 
 ### Removed
 
