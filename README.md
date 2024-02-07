@@ -1,6 +1,6 @@
-# Log(Copy + Paste)
+#  Clipboard History & Hotkeys
 
-An extension which keeps track of your last N copied items, making each of them easily available.
+An extension that lets you access previous clipboard items using shortcuts and completion prompts inside the editor.
 
 ## Features
 

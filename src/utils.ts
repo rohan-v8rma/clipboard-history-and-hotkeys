@@ -1,4 +1,10 @@
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+
 import * as vscode from 'vscode';
+
+
 import {
   EXTENSION_NAME 
 } from './constants';
@@ -79,3 +85,19 @@ export function pollClipboard(
     setTimeout(pollClipboard, clipboardPollInterval, previousClipboardContent, completionItems); 
   });
 };
+
+
+export function checkExecPermission() {
+  if (os.platform() === 'linux') {
+    // const pathToExecutable = path.resolve('../node_modules/clipboard-event/platform/clipboard-event-handler-linux');
+
+    // const orange = vscode.window.createOutputChannel('Orange');
+
+    // orange.appendLine(pathToExecutable);
+    // fs.access(pathToExecutable, 1, (err) => {
+    //   if(err){
+    //     fs.chmodSync(pathToExecutable, 0o766);
+    //   }
+    // });
+  }
+}; 

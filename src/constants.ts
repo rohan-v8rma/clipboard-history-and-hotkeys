@@ -1,3 +1,3 @@
 export default {};
 
-export const EXTENSION_NAME = 'log-copypluspaste';
+export const EXTENSION_NAME = 'clipboard-history-and-hotkeys';

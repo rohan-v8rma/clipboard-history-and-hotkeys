@@ -1,18 +1,45 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+
+import * as lodash from 'lodash';
+
 import * as vscode from 'vscode';
+
+import {
+  checkExecPermission,
+  pollClipboard 
+} from './utils';
+
+import clipboardListener from 'clipboard-event';
 
 import {
   EXTENSION_NAME 
 } from './constants';
 
-import {
-  pollClipboard 
-} from './utils';
-
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
+  
+  console.log(lodash.get({
+    x: 1
+  }, "x"));
+  //Create output channel
+  const orange = vscode.window.createOutputChannel("Orange");
+
+  //Write to output.
+  console.log(clipboardListener);
+  // To start listening
+  clipboardListener.startListening();
+
+  console.log(clipboardListener);
+  clipboardListener.on('change', () => {
+    console.log("CLIPBOARD CHANGED");
+    vscode.env.clipboard.readText().then((text) => console.log(`CHANGED: ${text}`));
+    // console.log('Clipboard changed');
+  });
+
+  // To stop listening
+  // clipboardListener.stopListening();
 
   const {
     triggerCharacter
@@ -31,26 +58,6 @@ export function activate(context: vscode.ExtensionContext) {
   // const outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel("Log(Copy + Paste)");
   // outputChannel.show();
   // outputChannel.appendLine("Debugging");
-
-
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable : vscode.Disposable = vscode.commands.registerCommand(
-    'log-copypluspaste.helloWorld', 
-    () => {
-      // The code you place here will be executed every time your command is executed
-      // Display a message box to the user
-      vscode.window.showInformationMessage('Hello World from Log(Copy + Paste)!');
-    }
-  );
-
-  /* 
-	This has nothing to do with the functioning of the command.
-	It just ensures that once the extension is de-activated, the command is disposed of as well.
-	*/
-  context.subscriptions.push(disposable);
-	
 
   //* The array that will be storing our clipboard items.
   let completionItems: vscode.CompletionItem[] = [];
@@ -106,9 +113,12 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(provider);
 
+  // The command has been defined in the package.json file
+  // Now provide the implementation of the command with registerCommand
+  // The commandId parameter must match the command field in package.json
   //* Command for pasting the items in clipboard directly, using keybind.
-  disposable = vscode.commands.registerCommand(
-    'log-copypluspaste.fetchItem',
+  let disposable = vscode.commands.registerCommand(
+    `${EXTENSION_NAME}.fetchItem`,
     (itemNum: number) => {
       const editor = vscode.window.activeTextEditor;
 
@@ -157,6 +167,10 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  /* 
+	This has nothing to do with the functioning of the command.
+	It just ensures that once the extension is de-activated, the command is disposed of as well.
+	*/
   context.subscriptions.push(disposable);
 
   // This variable will be available to the command handler below, since a closure is formed.
@@ -166,4 +180,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  clipboardListener.stopListening();
+}
