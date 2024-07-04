@@ -6,7 +6,7 @@
   "publisher": "just-another-rohan-verma",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rohan-v8rma/log-copypluspaste.git"
+    "url": "https://github.com/rohan-v8rma/clipboard-history-and-hotkeys"
   },
   "engines": {
     "vscode": "^1.79.0"
