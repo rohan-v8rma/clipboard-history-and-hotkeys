@@ -1,6 +1,6 @@
-# Log(Copy + Paste)
+# Clipboard History and Hotkeys
 
-An extension which keeps track of your last N copied items, making each of them easily available.
+A VS Code extension to access the last N items that have been copied system-wide.
 
 ## Features
 
@@ -25,9 +25,9 @@ If you have any requirements or dependencies, add a section describing those and
 
 This extension contributes the following settings:
 
-- `log-copypluspaste.clipboardPollInterval`: The intervals (in `ms`) at which the extension checks for new content in the clipboard. The minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure.
-- `log-copypluspaste.numberOfClipboardItems`: The number of clipboard items to store. Default value of `10` ensures all paste keybinds are functional.
-- `log-copypluspaste.triggerCharacter`: The character that needs to be typed, to trigger the completion dropdown.
+- `clipboard-history-and-hotkeys.clipboardPollInterval`: The intervals (in `ms`) at which the extension checks for new content in the clipboard. The minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure.
+- `clipboard-history-and-hotkeys.numberOfClipboardItems`: The number of clipboard items to store. Default value of `10` ensures all paste keybinds are functional.
+- `clipboard-history-and-hotkeys.triggerCharacter`: The character that needs to be typed, to trigger the completion dropdown.
 
 <!-- ## Known Issues
 
