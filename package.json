@@ -2,6 +2,7 @@
   "name": "clipboard-history-and-hotkeys",
   "displayName": "Clipboard History & Hotkeys",
   "description": "Access previous clipboard items using shortcuts and completion prompts inside the editor.",
+  "icon": "./icon.png",
   "version": "0.1.1",
   "publisher": "just-another-rohan-verma",
   "repository": {
