@@ -21,3 +21,13 @@
 ### Removed
 
 - VSCode information bubbles, used for the purpose of debugging.
+
+## [0.1.1]
+
+### Added
+
+- 
+
+### Changed
+
+- Name of extension
