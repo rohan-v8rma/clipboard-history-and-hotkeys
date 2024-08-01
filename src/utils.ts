@@ -36,14 +36,13 @@ export function updateCompletionItems(
 }
 
 
-export function pollClipboard(
+export function onClipboardChange(
   previousClipboardContent: string, 
   completionItems: vscode.CompletionItem[]
 ): void {
     
   // We access these workspace variables within the function call, so that the updated value is used everytime.
   const {
-    clipboardPollInterval,
     numberOfClipboardItems,
   } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
@@ -80,24 +79,5 @@ export function pollClipboard(
     }
 
     previousClipboardContent = clipboardContent;
-
-    // Schedule the next check after the specified delay
-    setTimeout(pollClipboard, clipboardPollInterval, previousClipboardContent, completionItems); 
   });
 };
-
-
-export function checkExecPermission() {
-  if (os.platform() === 'linux') {
-    // const pathToExecutable = path.resolve('../node_modules/clipboard-event/platform/clipboard-event-handler-linux');
-
-    // const orange = vscode.window.createOutputChannel('Orange');
-
-    // orange.appendLine(pathToExecutable);
-    // fs.access(pathToExecutable, 1, (err) => {
-    //   if(err){
-    //     fs.chmodSync(pathToExecutable, 0o766);
-    //   }
-    // });
-  }
-}; 

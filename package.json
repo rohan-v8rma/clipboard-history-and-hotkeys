@@ -2,7 +2,7 @@
   "name": "clipboard-history-and-hotkeys",
   "displayName": "Clipboard History & Hotkeys",
   "description": "Access previous clipboard items using shortcuts and completion prompts inside the editor.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "publisher": "just-another-rohan-verma",
   "repository": {
     "type": "git",
@@ -96,13 +96,6 @@
     "configuration": {
       "title": "Summarized Clipboard History",
       "properties": {
-        "clipboard-history-and-hotkeys.clipboardPollInterval": {
-          "type": "number",
-          "default": 100,
-          "minimum": 4,
-          "maximum": 2000,
-          "markdownDescription": "The intervals (in `ms`) at which the extension checks for new content in the clipboard. The minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure."
-        },
         "clipboard-history-and-hotkeys.numberOfClipboardItems": {
           "type": "number",
           "default": 10,
@@ -121,8 +114,9 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "copy-scripts": "copyfiles -u 1 ./src/clipboard-event/platform/* ./out",
+    "compile": "npm run copy-scripts && tsc -p ./",
+    "watch": "npm run copy-scripts && tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "lint:fix": "npm run lint -- --fix",
@@ -132,7 +126,6 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^1.5.4",
     "@types/glob": "^8.1.0",
-    "@types/lodash": "^4.14.202",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
     "@types/vscode": "^1.79.0",
@@ -145,7 +138,6 @@
     "typescript": "^5.1.3"
   },
   "dependencies": {
-    "clipboard-event": "^1.6.0",
-    "lodash": "^4.17.21"
+    "copyfiles": "^2.4.1"
   }
 }

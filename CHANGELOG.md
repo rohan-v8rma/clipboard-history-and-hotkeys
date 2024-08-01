@@ -21,3 +21,13 @@
 ### Removed
 
 - VSCode information bubbles, used for the purpose of debugging.
+
+## [1.0.0]
+
+### Added
+
+- Clipboard event change detection scripts for all OS.
+
+### Removed
+
+- Polling of clipboard to check for new items.

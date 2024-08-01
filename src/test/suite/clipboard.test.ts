@@ -52,8 +52,10 @@ suite('Clipboard Functionality Test Suite', () => {
   test('Change to `numberOfClipboardItems` contribution point value holds', async function() {
     this.timeout(0); // Eliminating the timeout threshold for this test.
     
+    const clipboardPollInterval = 100;
+
     const { 
-      clipboardPollInterval,
+      
       numberOfClipboardItems 
     } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 

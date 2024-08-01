@@ -10,9 +10,7 @@ export async function waitForDelay(n: number): Promise<boolean> {
 export async function writeNNumbersToClipboardOneByOne(
   n: number
 ) {
-  const {
-    clipboardPollInterval 
-  } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+  const clipboardPollInterval = 100;
 
   // return new Promise((resolve, reject) => {
   //     let tryingToWrite = n + 1;

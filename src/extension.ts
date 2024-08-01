@@ -1,46 +1,24 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 
-import * as lodash from 'lodash';
-
 import * as vscode from 'vscode';
 
-import {
-  checkExecPermission,
-  pollClipboard 
-} from './utils';
-
-import clipboardListener from 'clipboard-event';
+import clipboardListener from './clipboard-event';
 
 import {
   EXTENSION_NAME 
 } from './constants';
 
+import {
+  onClipboardChange 
+} from './utils';
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-  
-  console.log(lodash.get({
-    x: 1
-  }, "x"));
-  //Create output channel
-  const orange = vscode.window.createOutputChannel("Orange");
-
-  //Write to output.
-  console.log(clipboardListener);
   // To start listening
   clipboardListener.startListening();
-
-  console.log(clipboardListener);
-  clipboardListener.on('change', () => {
-    console.log("CLIPBOARD CHANGED");
-    vscode.env.clipboard.readText().then((text) => console.log(`CHANGED: ${text}`));
-    // console.log('Clipboard changed');
-  });
-
-  // To stop listening
-  // clipboardListener.stopListening();
-
+  
   const {
     triggerCharacter
   } = vscode.workspace.getConfiguration(EXTENSION_NAME);
@@ -175,8 +153,12 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // This variable will be available to the command handler below, since a closure is formed.
   let previousClipboardContent: string = '';
-	
-  pollClipboard(previousClipboardContent, completionItems);
+
+  clipboardListener.on('change', () => (
+    onClipboardChange(
+      previousClipboardContent, 
+      completionItems)
+  ));
 }
 
 // This method is called when your extension is deactivated
