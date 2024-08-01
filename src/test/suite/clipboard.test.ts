@@ -5,7 +5,7 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 
 import {
-  getCompletionItemsList, updateWorkspaceVariableValue, waitForDelay, writeNNumbersToClipboardOneByOne 
+  getCompletionItemsList, updateWorkspaceVariableValue, writeNNumbersToClipboardOneByOne 
 } from '../testUtils';
 
 import {
@@ -52,16 +52,14 @@ suite('Clipboard Functionality Test Suite', () => {
 
   test('Change to `numberOfClipboardItems` contribution point value holds', async function() {
     this.timeout(0); // Eliminating the timeout threshold for this test.
-    
-    const clipboardPollInterval = 100;
 
     const { 
       numberOfClipboardItems 
     } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
-    await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems - 1);
+    await writeNNumbersToClipboardOneByOne(numberOfClipboardItems + 1);
 
-    await waitForDelay(clipboardPollInterval * 3);
+    await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems - 1);
     
     const completionList: vscode.CompletionList = await getCompletionItemsList();
 
@@ -82,7 +80,5 @@ suite('Clipboard Functionality Test Suite', () => {
     }
 
     await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems + 1);
-
-    await waitForDelay(clipboardPollInterval);
   });
 });

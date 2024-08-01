@@ -3,22 +3,13 @@ import {
   EXTENSION_NAME 
 } from '../constants';
 
-export async function waitForDelay(n: number): Promise<boolean> {
-  return new Promise((resolve) => setTimeout(resolve, n, true));
-}
-
 export async function writeNNumbersToClipboardOneByOne(
   n: number
 ) {
-  const clipboardPollInterval = 100;
-
   return new Promise(async (resolve, reject) => {
     while(n > 0) {
       await vscode.env.clipboard.writeText(n.toString());
       n--;
-
-      // Waiting for the item to be added to CompletionItem array.
-      await waitForDelay(clipboardPollInterval * 2);
     }
 
     resolve(true);
