@@ -24,11 +24,12 @@ suite('Clipboard Functionality Test Suite', () => {
 
     const completionList: vscode.CompletionList = await getCompletionItemsList();
 
-    //    console.log(JSON.stringify(completionList));
+    // console.log(numberOfClipboardItems);
+    // console.log(JSON.stringify(completionList));
 
     const completionItems = completionList.items.map((item) => item.insertText);
 
-    //    console.log(JSON.stringify(completionItems));
+    // console.log(JSON.stringify(completionItems));
 
     // The number of items won't be less, because we are copying N + 1 items to clipboard.
     assert.strictEqual(
@@ -55,7 +56,6 @@ suite('Clipboard Functionality Test Suite', () => {
     const clipboardPollInterval = 100;
 
     const { 
-      
       numberOfClipboardItems 
     } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
@@ -81,7 +81,7 @@ suite('Clipboard Functionality Test Suite', () => {
       );
     }
 
-    await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems);
+    await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems + 1);
 
     await waitForDelay(clipboardPollInterval);
   });

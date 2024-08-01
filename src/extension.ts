@@ -3,15 +3,17 @@
 
 import * as vscode from 'vscode';
 
+import {
+  correctCompletionItemsLength,
+  onClipboardChange 
+} from './utils';
+
 import clipboardListener from './clipboard-event';
 
 import {
   EXTENSION_NAME 
 } from './constants';
 
-import {
-  onClipboardChange 
-} from './utils';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -39,7 +41,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
   //* The array that will be storing our clipboard items.
   let completionItems: vscode.CompletionItem[] = [];
-
 
   //* Registering the completion provider
   let provider : vscode.Disposable = vscode.languages.registerCompletionItemProvider(
@@ -149,6 +150,18 @@ export async function activate(context: vscode.ExtensionContext) {
 	This has nothing to do with the functioning of the command.
 	It just ensures that once the extension is de-activated, the command is disposed of as well.
 	*/
+  context.subscriptions.push(disposable);
+
+  disposable = vscode.workspace.onDidChangeConfiguration(event => {
+    correctCompletionItemsLength(
+      completionItems, 
+      vscode
+        .workspace
+        .getConfiguration(EXTENSION_NAME)
+        .numberOfClipboardItems
+    );
+  });
+
   context.subscriptions.push(disposable);
 
   // This variable will be available to the command handler below, since a closure is formed.
