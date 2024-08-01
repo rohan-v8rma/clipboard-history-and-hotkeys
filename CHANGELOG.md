@@ -31,3 +31,13 @@
 ### Changed
 
 - Name of extension
+
+## [1.0.0]
+
+### Added
+
+- Clipboard event change detection scripts for all OS.
+
+### Removed
+
+- Polling of clipboard to check for new items.
