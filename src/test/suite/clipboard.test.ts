@@ -14,7 +14,6 @@ import {
 
 suite('Clipboard Functionality Test Suite', () => {
   test('Check if `numberOfClipboardItems` limit being enforced', async function() {
-    this.timeout(0); // Eliminating the timeout threshold for this test.
 
     const {
       numberOfClipboardItems
@@ -51,8 +50,6 @@ suite('Clipboard Functionality Test Suite', () => {
   });
 
   test('Change to `numberOfClipboardItems` contribution point value holds', async function() {
-    this.timeout(0); // Eliminating the timeout threshold for this test.
-
     const { 
       numberOfClipboardItems 
     } = vscode.workspace.getConfiguration(EXTENSION_NAME);
@@ -80,5 +77,32 @@ suite('Clipboard Functionality Test Suite', () => {
     }
 
     await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems + 1);
+  });
+
+  test('Check if shortcuts are working', async function() {
+    const {
+      numberOfClipboardItems
+    } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+
+    await writeNNumbersToClipboardOneByOne(numberOfClipboardItems + 1);
+
+    const completionList: vscode.CompletionList = await getCompletionItemsList();
+
+    const completionItems = completionList.items.map((item) => item.insertText);
+
+    completionItems.forEach(async (item, index) => {
+      const nthCompletionItem = await vscode
+        .commands
+        .executeCommand<vscode.CompletionItem>(
+        `${EXTENSION_NAME}.fetchItem`,
+        index + 1
+      );
+
+      assert.strictEqual(
+        item, 
+        nthCompletionItem.insertText, 
+        `${item} present at position ${index + 1}. Expected ${nthCompletionItem.insertText}.`
+      );
+    });
   });
 });

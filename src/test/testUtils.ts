@@ -16,11 +16,23 @@ export async function writeNNumbersToClipboardOneByOne(
   });
 }
 
-export async function getCompletionItemsList() {
-  // Create a mock document
+export async function getUntitledEditor() {
   const uri = vscode.Uri.parse('untitled:./test.txt', true);
   const mockDocument = await vscode.workspace.openTextDocument(uri);
   const editor = await vscode.window.showTextDocument(mockDocument);
+
+  return {
+    editor,
+    mockDocument, 
+    uri, 
+  };
+}
+
+export async function getCompletionItemsList() {
+  // Create a mock document
+  const {
+    uri, 
+  } = await getUntitledEditor();
 
   // Trigger the completion provider.
   const position = new vscode.Position(0, 0);
