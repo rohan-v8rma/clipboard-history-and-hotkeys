@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 
 import {
   correctCompletionItemsLength,
+  createCompletionItem,
   onClipboardChange 
 } from './utils';
 
@@ -13,7 +14,6 @@ import clipboardListener from './clipboard-event';
 import {
   EXTENSION_NAME 
 } from './constants';
-
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -25,24 +25,16 @@ export async function activate(context: vscode.ExtensionContext) {
     triggerCharacter
   } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
-  /* 
-	* Use the console to output diagnostic information (console.log) and errors (console.error)
-	* This line of code will only be executed once when your extension is activated
-	*/
-  // console.log('Congratulations, your extension "log-copypluspaste" is now active!');
-
-  /*
-	? An alternative method for debugging. 
-	TODO: Refer https://stackoverflow.com/questions/34085330/how-to-write-to-log-from-vscode-extension
-	*/
-  // const outputChannel: vscode.OutputChannel = vscode.window.createOutputChannel("Log(Copy + Paste)");
-  // outputChannel.show();
-  // outputChannel.appendLine("Debugging");
+  const initialClipboardValue: string = await vscode.env.clipboard.readText();
 
   //* The array that will be storing our clipboard items.
-  let completionItems: vscode.CompletionItem[] = [];
+  let completionItems: vscode.CompletionItem[] = (
+    initialClipboardValue 
+      ? [createCompletionItem(initialClipboardValue)] 
+      : []
+  );
 
-  //* Registering the completion provider
+  //* Registering the completion providerinsertText
   let provider : vscode.Disposable = vscode.languages.registerCompletionItemProvider(
     /* 
 		This is for making the completion provider available in all files. 
@@ -98,7 +90,7 @@ export async function activate(context: vscode.ExtensionContext) {
   //* Command for pasting the items in clipboard directly, using keybind.
   let disposable = vscode.commands.registerCommand(
     `${EXTENSION_NAME}.fetchItem`,
-    (itemNum: number) => {
+    async (itemNum: number) => {
       const editor = vscode.window.activeTextEditor;
 
       /* 
@@ -107,7 +99,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 			But, we still need to perform an optional chaining, to avoid typescript errors.
 			*/
-      editor?.edit(editBuilder => {
+      await editor?.edit(editBuilder => {
 					
         const textToBeInserted: string = String(
           /*
@@ -130,7 +122,6 @@ export async function activate(context: vscode.ExtensionContext) {
             "NO SUCH ITEM"
         );
 				
-
         editBuilder.insert(
           editor.selection.active, 
           /* 
@@ -143,6 +134,9 @@ export async function activate(context: vscode.ExtensionContext) {
           textToBeInserted
         );
       });
+
+      // We are returning the item, so that we can test it.
+      return completionItems[itemNum - 1];
     }
   );
 
@@ -152,6 +146,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	*/
   context.subscriptions.push(disposable);
 
+  // This is for updating the completion items, when the configuration changes.
   disposable = vscode.workspace.onDidChangeConfiguration(event => {
     correctCompletionItemsLength(
       completionItems, 
@@ -164,13 +159,23 @@ export async function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  // This variable will be available to the command handler below, since a closure is formed.
-  let previousClipboardContent: string = '';
+  // Command for clearing the clipboard items as well as the clipboard.
+  disposable = vscode.commands.registerCommand(
+    `${EXTENSION_NAME}.clearClipboard`,
+    async () => {
+      completionItems = [];
+      /* 
+      We do this afterwards, so that a closure isn't formed 
+      as the clipboard event 
+      */
+      await vscode.env.clipboard.writeText("");
+    }
+  );
 
-  clipboardListener.on('change', () => (
-    onClipboardChange(
-      previousClipboardContent, 
-      completionItems)
+  context.subscriptions.push(disposable);
+
+  clipboardListener.on('change', async () => (
+    completionItems = await onClipboardChange(completionItems)
   ));
 }
 

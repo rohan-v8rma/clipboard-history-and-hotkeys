@@ -5,7 +5,8 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 
 import {
-  getCompletionItemsList, updateWorkspaceVariableValue, writeNNumbersToClipboardOneByOne 
+  getCompletionItemsList, updateWorkspaceVariableValue, writeNNumbersToClipboardOneByOne, 
+  writeTextToClipboard
 } from '../testUtils';
 
 import {
@@ -14,6 +15,8 @@ import {
 
 suite('Clipboard Functionality Test Suite', () => {
   test('Check if `numberOfClipboardItems` limit being enforced', async function() {
+    // Increase the timeout to 0, because we are adding a delay for writing clipboard items.
+    this.timeout(0);
 
     const {
       numberOfClipboardItems
@@ -21,27 +24,22 @@ suite('Clipboard Functionality Test Suite', () => {
 
     await writeNNumbersToClipboardOneByOne(numberOfClipboardItems + 1);
 
-    const completionList: vscode.CompletionList = await getCompletionItemsList();
-
-    // console.log(numberOfClipboardItems);
-    // console.log(JSON.stringify(completionList));
-
-    const completionItems = completionList.items.map((item) => item.insertText);
-
-    // console.log(JSON.stringify(completionItems));
+    const {
+      completionItemsList
+    } = await getCompletionItemsList();
 
     // The number of items won't be less, because we are copying N + 1 items to clipboard.
     assert.strictEqual(
-      completionItems.length, 
+      completionItemsList.length, 
       numberOfClipboardItems, 
-      `${completionItems.length} stored in clipboard. Max allowed is ${numberOfClipboardItems}.`
+      `${completionItemsList.length} stored in clipboard. Max allowed is ${numberOfClipboardItems}.`
     );
 
     for(let i = 1; i <= numberOfClipboardItems; i++) {
       assert.strictEqual(
-        completionItems[i - 1], 
+        completionItemsList[i - 1], 
         i.toString(), 
-        `${completionItems[i - 1]} present at position ${i}. Expected ${i}.`
+        `${completionItemsList[i - 1]} present at position ${i}. Expected ${i}.`
       );
     }
 
@@ -50,6 +48,9 @@ suite('Clipboard Functionality Test Suite', () => {
   });
 
   test('Change to `numberOfClipboardItems` contribution point value holds', async function() {
+    // Increase the timeout to 0, because we are adding a delay for writing clipboard items.
+    this.timeout(0);
+    
     const { 
       numberOfClipboardItems 
     } = vscode.workspace.getConfiguration(EXTENSION_NAME);
@@ -58,40 +59,70 @@ suite('Clipboard Functionality Test Suite', () => {
 
     await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems - 1);
     
-    const completionList: vscode.CompletionList = await getCompletionItemsList();
-
-    const completionItems = completionList.items.map((item) => item.insertText);
+    const {
+      completionItemsList,
+    } = await getCompletionItemsList();
 
     assert.strictEqual(
-      completionItems.length, 
+      completionItemsList.length, 
       numberOfClipboardItems - 1, 
-      `${completionItems.length} stored in clipboard. Max allowed is ${numberOfClipboardItems}.`
+      `${completionItemsList.length} stored in clipboard. Max allowed is ${numberOfClipboardItems}.`
     );
     
     for(let i = 1; i <= numberOfClipboardItems - 1; i++) {
       assert.strictEqual(
-        completionItems[i - 1], 
+        completionItemsList[i - 1], 
         i.toString(), 
-        `${completionItems[i - 1]} present at position ${i}. Expected ${i}.`
+        `${completionItemsList[i - 1]} present at position ${i}. Expected ${i}.`
       );
     }
 
-    await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems + 1);
+    await updateWorkspaceVariableValue<number>('numberOfClipboardItems', numberOfClipboardItems);
   });
 
-  test('Check if shortcuts are working', async function() {
+  test('Check if clearing the clipboard works', async function() {
+    // Increase the timeout to 0, because we are adding a delay for writing clipboard items.
+    this.timeout(0);
+
     const {
       numberOfClipboardItems
     } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
     await writeNNumbersToClipboardOneByOne(numberOfClipboardItems + 1);
 
-    const completionList: vscode.CompletionList = await getCompletionItemsList();
+    await vscode
+      .commands
+      .executeCommand(
+        `${EXTENSION_NAME}.clearClipboard`
+      );
 
-    const completionItems = completionList.items.map((item) => item.insertText);
+    const {
+      completionItemsList,
+    } = await getCompletionItemsList();
 
-    completionItems.forEach(async (item, index) => {
-      const nthCompletionItem = await vscode
+    assert.strictEqual(
+      completionItemsList.length, 
+      0, 
+      `${completionItemsList} stored in clipboard. Expected 0.`
+    );
+  });
+
+  test('Check if shortcuts are working', async function() {
+    // Increase the timeout to 0, because we are adding a delay for writing clipboard items.
+    this.timeout(0);
+
+    const {
+      numberOfClipboardItems
+    } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+
+    await writeNNumbersToClipboardOneByOne(numberOfClipboardItems + 1);
+
+    const {
+      completionItemsList,
+    } = await getCompletionItemsList();
+
+    completionItemsList.forEach(async (item, index) => {
+      const nthCompletionItem: vscode.CompletionItem = await vscode
         .commands
         .executeCommand<vscode.CompletionItem>(
         `${EXTENSION_NAME}.fetchItem`,
@@ -100,9 +131,35 @@ suite('Clipboard Functionality Test Suite', () => {
 
       assert.strictEqual(
         item, 
-        nthCompletionItem.insertText, 
-        `${item} present at position ${index + 1}. Expected ${nthCompletionItem.insertText}.`
+        nthCompletionItem.label, 
+        `${item} present at position ${index + 1}. Expected ${nthCompletionItem.label}.`
       );
     });
+  });
+
+  test('Check if duplicates are being removed from the list.', async function() {
+    // Increase the timeout to 0, because we are adding a delay for writing clipboard items.
+    this.timeout(0);
+
+    await vscode
+      .commands
+      .executeCommand(
+        `${EXTENSION_NAME}.clearClipboard`
+      );    
+
+    await writeTextToClipboard('FIRST');
+    await writeTextToClipboard('SECOND');
+    await writeTextToClipboard('FIRST');
+    
+    const {
+      completionItemsList,
+    } = await getCompletionItemsList();
+
+    // Check if the duplicates are removed.
+    assert.strictEqual(
+      completionItemsList.length, 
+      2, 
+      `${completionItemsList.length} stored in clipboard. Expected 2.`
+    );
   });
 });

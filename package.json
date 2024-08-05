@@ -3,7 +3,7 @@
   "displayName": "Clipboard History & Hotkeys",
   "description": "Access previous clipboard items using shortcuts and completion prompts inside the editor.",
   "icon": "./icon.png",  
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "just-another-rohan-verma",
   "repository": {
     "type": "git",
@@ -23,13 +23,13 @@
   "contributes": {
     "commands": [
       {
-        "command": "clipboard-history-and-hotkeys.helloWorld",
-        "title": "Hello World"
-      },
-      {
         "command": "clipboard-history-and-hotkeys.fetchItem",
         "title": "Fetch Item",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "clipboard-history-and-hotkeys.clearClipboard",
+        "title": "Clear Clipboard"
       }
     ],
     "keybindings": [

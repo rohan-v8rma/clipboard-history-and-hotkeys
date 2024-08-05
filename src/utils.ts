@@ -1,7 +1,3 @@
-import * as fs from 'fs';
-import * as os from 'os';
-import * as path from 'path';
-
 import * as vscode from 'vscode';
 
 import {
@@ -14,7 +10,7 @@ let itemSequenceNum : number = 1e8;
 export function correctCompletionItemsLength(
   completionItems: vscode.CompletionItem[],
   requiredLength: number
-) {
+): vscode.CompletionItem[] {
   while(completionItems.length > requiredLength) {
     /* 
         This removes the last completion item, until it is under the max limit of clipboard items.
@@ -23,29 +19,58 @@ export function correctCompletionItemsLength(
         */
     completionItems.pop();
   }
+
+  return completionItems;
 }
 
 export function updateCompletionItems(
   completionItem: vscode.CompletionItem, 
   completionItems: vscode.CompletionItem[]
-): void {
-
+): vscode.CompletionItem[] {
   // We access these workspace variables within the function call, so that the updated value is used for every.
   const {
     numberOfClipboardItems,
   } = vscode.workspace.getConfiguration(EXTENSION_NAME);
   
-  correctCompletionItemsLength(completionItems, numberOfClipboardItems - 1);
+  completionItems = correctCompletionItemsLength(
+    completionItems, 
+    numberOfClipboardItems - 1
+  );
 
   completionItems.unshift(completionItem);
+
+  return completionItems
+    .filter((
+      currentCompletionItem: vscode.CompletionItem, 
+      index: number
+    ) => (
+      // The first item, we've just added.
+      (index === 0) 
+      || (currentCompletionItem.label !== completionItem.label)
+    ));
 }
 
+export function createCompletionItem(
+  clipboardContent: string
+): vscode.CompletionItem {
+  // Creating a completion item using the new clipboard content.
+  const completionItem: vscode.CompletionItem = new vscode.CompletionItem(clipboardContent);
 
-export function onClipboardChange(
-  previousClipboardContent: string, 
+  /* 
+  We modify the sortText property of the completion item we are about to add to our completion item array.
+
+  In this way, the most recently copied item appears at the top, and the least recent one appears at the bottom.
+  */
+  completionItem.sortText = "!" + itemSequenceNum.toString().padStart(9, '0');
+
+  itemSequenceNum--;
+
+  return completionItem;
+}
+
+export async function onClipboardChange(
   completionItems: vscode.CompletionItem[]
-): void {
-    
+): Promise<vscode.CompletionItem[]> {
   // We access these workspace variables within the function call, so that the updated value is used everytime.
   const {
     numberOfClipboardItems,
@@ -53,29 +78,21 @@ export function onClipboardChange(
 
   correctCompletionItemsLength(completionItems, numberOfClipboardItems);
 
-  vscode.env.clipboard.readText().then((text) => {
-    const clipboardContent: string = text;
+  const text = await vscode.env.clipboard.readText();
+    
+  const clipboardContent: string = text;
 
-    if (clipboardContent !== previousClipboardContent) {
-      // vscode.window.showInformationMessage(clipboardContent);
-            
-      // Creating a completion item using the new clipboard content.
-      const completionItem: vscode.CompletionItem = new vscode.CompletionItem(clipboardContent);
+  if (
+    // Seeing if the clipboard content is not empty.
+    clipboardContent 
+    // Seeing if the clipboard content is not the same as the first completion item.
+    && clipboardContent !== completionItems?.[0]?.label
+  ) {
+    // Creating a completion item using the new clipboard content.
+    const completionItem: vscode.CompletionItem = createCompletionItem(clipboardContent);
 
-      /* 
-            We modify the sortText property of the completion item we are about to add to our completion item array.
+    return updateCompletionItems(completionItem, completionItems);
+  }
 
-            In this way, the most recently copied item appears at the top, and the least recent one appears at the bottom.
-            */
-      completionItem.sortText = "!" + itemSequenceNum.toString().padStart(9, '0');
-
-      itemSequenceNum--;
-
-      updateCompletionItems(completionItem, completionItems);
-            
-      // console.log(completionItem.label + completionItem.sortText);
-    }
-
-    previousClipboardContent = clipboardContent;
-  });
+  return completionItems;
 };

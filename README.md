@@ -2,12 +2,14 @@
 
 An extension that lets you access previous clipboard items using shortcuts and completion prompts inside the editor.
 
-## Features
+## How the Extension Works
 
-- While in an open file in the editor, press the `%` prompt key (this key is configurable) to see the available keyboard items.
+- Once VS Code is open, any item copied from any source is recorded in your last N clipboard items.
+- Once you come back to an open file in the editor, press the `%` prompt key (this key is configurable) to see the available keyboard items.
 - If you know which clipboard item you want, use the shortcut `Ctrl+Shift+[1-9]`, depending on which one you need.
   - `Ctrl+Shift+1` gets the last copied item.
   - `Ctrl+Shift+9` gets the 9th last copied item.
+- `Clear Clipboard` in the Command Pallette clears your current clipboard item, as well as any previous items.
 
 <!-- Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 

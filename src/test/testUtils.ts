@@ -3,17 +3,23 @@ import {
   EXTENSION_NAME 
 } from '../constants';
 
+export async function waitForDelay(milliSeconds: number): Promise<boolean> {
+  return new Promise((resolve) => setTimeout(resolve, milliSeconds, true));
+}
+
+export async function writeTextToClipboard(text: string): Promise<void> {
+  await vscode.env.clipboard.writeText(text);
+  // Wait for 100 milliseconds, to prevent race condition between clipboard write and read in the change event
+  await waitForDelay(100);
+}
+
 export async function writeNNumbersToClipboardOneByOne(
   n: number
-) {
-  return new Promise(async (resolve, reject) => {
-    while(n > 0) {
-      await vscode.env.clipboard.writeText(n.toString());
-      n--;
-    }
-
-    resolve(true);
-  });
+): Promise<void> {
+  while(n > 0) {
+    await writeTextToClipboard(n.toString());
+    n--;
+  };
 }
 
 export async function getUntitledEditor() {
@@ -41,12 +47,17 @@ export async function getCompletionItemsList() {
     triggerCharacter 
   } = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
-  return vscode.commands.executeCommand<vscode.CompletionList>(
+  const completionList = await vscode.commands.executeCommand<vscode.CompletionList>(
     'vscode.executeCompletionItemProvider',
     uri,
     position,
     triggerCharacter
   );
+
+  return {
+    completionItemsList: completionList.items.map((item) => item.insertText ?? item.label), 
+    completionList,
+  };
 }
 
 export function updateWorkspaceVariableValue<T>(propertyName: string, propertyValue: T): Thenable<void> {
