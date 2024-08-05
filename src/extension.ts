@@ -27,12 +27,16 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const initialClipboardValue: string = await vscode.env.clipboard.readText();
 
-  //* The array that will be storing our clipboard items.
-  let completionItems: vscode.CompletionItem[] = (
-    initialClipboardValue 
-      ? [createCompletionItem(initialClipboardValue)] 
-      : []
-  );
+  const args: {
+    completionItems: vscode.CompletionItem[],
+  } = {
+    //* The array that will be storing our clipboard items.
+    completionItems: (
+      initialClipboardValue 
+        ? [createCompletionItem(initialClipboardValue)] 
+        : []
+    )
+  }; 
 
   //* Registering the completion providerinsertText
   let provider : vscode.Disposable = vscode.languages.registerCompletionItemProvider(
@@ -64,18 +68,17 @@ export async function activate(context: vscode.ExtensionContext) {
           Math.max(position.character - triggerCharacter.length, 0) 
         );
 
-        completionItems.forEach((completionItem: vscode.CompletionItem, index: number) => {
-          completionItem.additionalTextEdits = [
-            // This removes the TRIGGER CHARACTER, irrespective of the completion item selected.
-            vscode.TextEdit.delete(new vscode.Range(prevPosition, position))
-          ];
-
-          // TODO: Optional Feature
-          // completionItem.label = (index + 1).toString() + ". "+ completionItem.label;
-        });
-
-
-        return completionItems;
+        return args.completionItems
+          .map(
+            (completionItem: vscode.CompletionItem, index: number)
+            : vscode.CompletionItem => ({
+              ...completionItem,
+          	  additionalTextEdits: [
+                // This removes the TRIGGER CHARACTER, irrespective of the completion item selected.
+                vscode.TextEdit.delete(new vscode.Range(prevPosition, position))
+              ],
+            })
+          );
       }
     },
     // This is the trigger character
@@ -109,17 +112,17 @@ export async function activate(context: vscode.ExtensionContext) {
 
 					If it is undefined, we keep "NO SUCH ITEM" as the text to be inserted.
 					*/
-          completionItems[itemNum - 1] 
-            ? 
-          /* 
-					If `insertText` is NOT undefined (checked using non-nullish coalescing operator), it means the `label` is different from the actual text. In that case, we use the `insertText`	property which holds the actual text that needs to be copied.
+          args.completionItems[itemNum - 1] 
+            /* 
+            If `insertText` is NOT undefined (checked using non-nullish coalescing operator), it means the `label` is different from the actual text. In that case, we use the `insertText`	property which holds the actual text that needs to be copied.
 
-					If `insertText` is undefined, it is because the `label` has NOT been changed and is the same as the actual text that needs to be copied. So, we just use the `label` property to get the text we need.
-					*/
-            completionItems[itemNum - 1].insertText ?? 
-					completionItems[itemNum - 1].label
-            :
-            "NO SUCH ITEM"
+            If `insertText` is undefined, it is because the `label` has NOT been changed and is the same as the actual text that needs to be copied. So, we just use the `label` property to get the text we need.
+            */
+            ? (
+              args.completionItems[itemNum - 1].insertText 
+              ?? args.completionItems[itemNum - 1].label
+            )
+            : "NO SUCH ITEM"
         );
 				
         editBuilder.insert(
@@ -136,7 +139,7 @@ export async function activate(context: vscode.ExtensionContext) {
       });
 
       // We are returning the item, so that we can test it.
-      return completionItems[itemNum - 1];
+      return args.completionItems[itemNum - 1];
     }
   );
 
@@ -149,7 +152,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // This is for updating the completion items, when the configuration changes.
   disposable = vscode.workspace.onDidChangeConfiguration(event => {
     correctCompletionItemsLength(
-      completionItems, 
+      args.completionItems, 
       vscode
         .workspace
         .getConfiguration(EXTENSION_NAME)
@@ -163,19 +166,22 @@ export async function activate(context: vscode.ExtensionContext) {
   disposable = vscode.commands.registerCommand(
     `${EXTENSION_NAME}.clearClipboard`,
     async () => {
-      completionItems = [];
       /* 
-      We do this afterwards, so that a closure isn't formed 
-      as the clipboard event 
+      This doesn't matter if we do it first, because 
+      even if a closure if formed by the function that
+      runs on clipboard change event, there will be no updating of the 
+      of the completionItems array, since the clipboard is empty.
+      TODO: See logic of onClipboardChange function for better understanding.
       */
       await vscode.env.clipboard.writeText("");
+      args.completionItems = [];
     }
   );
 
   context.subscriptions.push(disposable);
 
-  clipboardListener.on('change', async () => (
-    completionItems = await onClipboardChange(completionItems)
+  clipboardListener.on('change', () => (
+    onClipboardChange(args)
   ));
 }
 

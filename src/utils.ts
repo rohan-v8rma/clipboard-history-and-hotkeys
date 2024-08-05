@@ -69,15 +69,10 @@ export function createCompletionItem(
 }
 
 export async function onClipboardChange(
-  completionItems: vscode.CompletionItem[]
-): Promise<vscode.CompletionItem[]> {
-  // We access these workspace variables within the function call, so that the updated value is used everytime.
-  const {
-    numberOfClipboardItems,
-  } = vscode.workspace.getConfiguration(EXTENSION_NAME);
-
-  correctCompletionItemsLength(completionItems, numberOfClipboardItems);
-
+  args: {
+    completionItems: vscode.CompletionItem[]
+  }
+): Promise<void> {
   const text = await vscode.env.clipboard.readText();
     
   const clipboardContent: string = text;
@@ -86,13 +81,11 @@ export async function onClipboardChange(
     // Seeing if the clipboard content is not empty.
     clipboardContent 
     // Seeing if the clipboard content is not the same as the first completion item.
-    && clipboardContent !== completionItems?.[0]?.label
+    && clipboardContent !== args.completionItems?.[0]?.label
   ) {
     // Creating a completion item using the new clipboard content.
     const completionItem: vscode.CompletionItem = createCompletionItem(clipboardContent);
 
-    return updateCompletionItems(completionItem, completionItems);
+    args.completionItems = updateCompletionItems(completionItem, args.completionItems);
   }
-
-  return completionItems;
 };
