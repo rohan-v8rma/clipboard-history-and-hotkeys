@@ -2,8 +2,11 @@
   "name": "clipboard-history-and-hotkeys",
   "displayName": "Clipboard History & Hotkeys",
   "description": "Access previous clipboard items using shortcuts and completion prompts inside the editor.",
-  "icon": "./icon.png",  
+  "icon": "./icon.png",
   "version": "1.1.0",
+  "extensionKind": [
+    "ui"
+  ],
   "publisher": "just-another-rohan-verma",
   "repository": {
     "type": "git",
@@ -19,7 +22,8 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "main": "./out/extension.js",
+  "browser": "./out/browser/extension.js",
+  "main": "./out/main/extension.js",
   "contributes": {
     "commands": [
       {
@@ -102,27 +106,29 @@
           "default": 10,
           "minimum": 1,
           "maximum": 100,
-          "markdownDescription": "The number of clipboard items to store. Default value of `10` ensures all paste hotkeys are functional."
+          "markdownDescription": "The number of clipboard items to store. Default value of `10` ensures all paste hotkeys are functional.",
+          "scope": "application"
         },
         "clipboard-history-and-hotkeys.triggerCharacter": {
           "type": "string",
           "default": "%",
           "maxLength": 1,
-          "markdownDescription": "The character that needs to be typed, to trigger the completion dropdown."
+          "markdownDescription": "The character that needs to be typed, to trigger the completion dropdown.",
+          "scope": "application"
         }
       }
     }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "copy-scripts": "copyfiles -u 1 ./src/clipboard-event/platform/* ./out",
+    "copy-scripts": "copyfiles -u 1 ./src/main/clipboard-event/platform/* ./out",
     "compile": "npm run copy-scripts && tsc -p ./",
     "watch": "npm run copy-scripts && tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "lint:fix": "npm run lint -- --fix",
     "lint:fixquiet": "npm run lint:fix -- --quiet",
-    "test": "node ./out/test/runTest.js"
+    "test": "vscode-test --label=main"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^1.5.4",
@@ -132,7 +138,9 @@
     "@types/vscode": "^1.79.0",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
+    "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.3.2",
+    "@vscode/test-web": "^0.0.56",
     "eslint": "^8.56.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",

@@ -6,6 +6,7 @@
 		"lib": [
 			"ES2020"
 		],
+		"baseUrl": ".",
 		"typeRoots": [
 			// "src/@types",
 			"node_modules/@types",

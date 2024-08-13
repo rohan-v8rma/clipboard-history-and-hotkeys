@@ -7,13 +7,13 @@ import {
   correctCompletionItemsLength,
   createCompletionItem,
   onClipboardChange 
-} from './utils';
+} from '../utils';
 
 import clipboardListener from './clipboard-event';
 
 import {
   EXTENSION_NAME 
-} from './constants';
+} from '../constants';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed

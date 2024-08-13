@@ -9,10 +9,10 @@ export function run(): Promise<void> {
     ui: 'tdd',
   });
 
-  const testsRoot = path.resolve(__dirname, '..');
+  const testsRoot = path.resolve(__dirname, '.');
 
   return new Promise((c, e) => {
-    glob('**/**.test.js', {
+    glob('./**.test.js', {
       cwd: testsRoot 
     }, (err, files) => {
       if (err) {

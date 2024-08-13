@@ -89,3 +89,34 @@ export async function onClipboardChange(
     args.completionItems = updateCompletionItems(completionItem, args.completionItems);
   }
 };
+
+export async function pollClipboard(args: {
+  completionItems: vscode.CompletionItem[],
+}): Promise<void> {
+  // We access these workspace variables within the function call, so that the updated value is used everytime.
+  const {
+    numberOfClipboardItems,
+    clipboardPollInterval
+  } = vscode.workspace.getConfiguration(EXTENSION_NAME);
+
+  args.completionItems = correctCompletionItemsLength(
+    args.completionItems, 
+    numberOfClipboardItems
+  );
+
+  const clipboardContent: string = await vscode.env.clipboard.readText();
+
+  if (
+    // Seeing if the clipboard content is not empty.
+    clipboardContent 
+    // Seeing if the clipboard content is not the same as the first completion item.
+    && clipboardContent !== args.completionItems?.[0]?.label
+  ) {
+    // Creating a completion item using the new clipboard content.
+    const completionItem: vscode.CompletionItem = createCompletionItem(clipboardContent);
+    
+    args.completionItems = updateCompletionItems(completionItem, args.completionItems);
+  }
+
+  setTimeout(pollClipboard, clipboardPollInterval, args); 
+};

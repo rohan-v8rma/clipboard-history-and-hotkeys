@@ -31,6 +31,14 @@ This extension contributes the following settings:
 - `clipboard-history-and-hotkeys.numberOfClipboardItems`: The number of clipboard items to store. Default value of `10` ensures all paste keybinds are functional.
 - `clipboard-history-and-hotkeys.triggerCharacter`: The character that needs to be typed, to trigger the completion dropdown.
 
+## Design Decisions
+
+- This is a UI extension, instead of a Workspace extension.
+  - This means even when code is being accessed through dev containers or SSH, on your local VS Code application, the extension still runs on your local machine and thus all copy and paste operations are recorded.
+  - If it had been a Workspace extension, no copy-paste operations would be recorded (not even the ones that take place within the code of the remote environment, since we would not actually be executing copy or paste on the remote machine, but just on our local machine).
+  - Read more about types of extensions over [here](https://code.visualstudio.com/api/advanced-topics/remote-extensions#architecture-and-extension-kinds).
+- The configuration properties are `application` scoped, so that any changes to the extension settings don't have to be made in each new VS Code window.
+
 ## Change Log
 
 See Change Log [here](./CHANGELOG.md).
