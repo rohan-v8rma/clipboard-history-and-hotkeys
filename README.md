@@ -11,6 +11,10 @@ An extension that lets you access previous clipboard items using shortcuts and c
   - `Ctrl+Shift+9` gets the 9th last copied item.
 - `Clear Clipboard` in the Command Pallette clears your current clipboard item, as well as any previous items.
 
+## Clipboard Access for Web version
+
+When opening the web version of VS Code, you will be prompted for clipboard access; which needs to be granted for the extension to work properly.
+
 <!-- Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
 For example if there is an image subfolder under your extension project workspace:

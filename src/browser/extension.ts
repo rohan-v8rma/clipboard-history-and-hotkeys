@@ -33,7 +33,6 @@ export async function activate(context: vscode.ExtensionContext) {
     )
   };
 
-
   //* Registering the completion provider
   let provider : vscode.Disposable = vscode.languages.registerCompletionItemProvider(
     /* 

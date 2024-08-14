@@ -6,7 +6,22 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Run Extension",
+			"name": "Browser",
+			"type": "extensionHost",
+			"debugWebWorkerHost": true,
+			"request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}",
+        		"--extensionDevelopmentKind=web",
+				"--disable-extensions"
+			],
+			"outFiles": [
+				"${workspaceFolder}/out/browser/*.js"
+			],
+			"preLaunchTask": "npm: watch",
+		},
+		{
+			"name": "Main",
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
@@ -16,10 +31,10 @@
 			"outFiles": [
 				"${workspaceFolder}/out/main/*.js"
 			],
-			"preLaunchTask": "npm: watch"
+			"preLaunchTask": "npm: watch",
 		},
 		{
-			"name": "Main: Extension Tests",
+			"name": "Test: Main",
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [

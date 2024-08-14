@@ -1,7 +1,9 @@
 const esbuild = require('esbuild');
 const glob = require('glob');
 const path = require('path');
-// const polyfill = require('@esbuild-plugins/node-globals-polyfill');
+const {
+  polyfillNode 
+} = require("esbuild-plugin-polyfill-node");
 
 const production = process.argv.includes('--production');
 const watch = process.argv.includes('--watch');
@@ -48,10 +50,7 @@ async function main() {
     platform: 'browser',
     plugins: [
       /* add to the end of plugins array */
-    //   polyfill.NodeGlobalsPolyfillPlugin({
-    //     buffer: true,
-    //     process: true,
-    //   }),
+      // polyfillNode({}),
       // getTestBundlePlugin('browser'),
       esbuildProblemMatcherPlugin,
     ],

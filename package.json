@@ -133,10 +133,10 @@
     "vscode:prepublish": "npm run package",
     "package": "npm run compile -- -- --production",
     "pretest": "npm run package",
-    "test": "vscode-test --label=main"
+    "test": "vscode-test --label=main",
+    "open-in-browser": "vscode-test-web --extensionDevelopmentPath=. ."
   },
   "devDependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@stylistic/eslint-plugin": "^1.5.4",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
@@ -156,6 +156,7 @@
   },
   "dependencies": {
     "assert": "^2.1.0",
-    "copyfiles": "^2.4.1"
+    "copyfiles": "^2.4.1",
+    "esbuild-plugin-polyfill-node": "^0.3.0"
   }
 }
