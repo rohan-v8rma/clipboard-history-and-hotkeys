@@ -101,6 +101,13 @@
     "configuration": {
       "title": "Clipboard History & Hotkeys",
       "properties": {
+        "clipboard-history-and-hotkeys-for-web.clipboardPollInterval": {
+          "type": "number",
+          "default": 100,
+          "minimum": 4,
+          "maximum": 2000,
+          "markdownDescription": "The intervals (in `ms`) at which the extension checks for new content in the clipboard. \n\nThe minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure. \n\n***Note***: This property is for the web version. It does not affect the desktop version, which uses native events to detect clipboard changes."
+        },
         "clipboard-history-and-hotkeys.numberOfClipboardItems": {
           "type": "number",
           "default": 10,
