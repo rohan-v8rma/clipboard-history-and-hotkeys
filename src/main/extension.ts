@@ -20,6 +20,8 @@ import {
 export async function activate(context: vscode.ExtensionContext) {
   // To start listening
   clipboardListener.startListening();
+
+  vscode.window.showInformationMessage('Clipboard History & Hotkeys 📋 is now running!',);
   
   const {
     triggerCharacter

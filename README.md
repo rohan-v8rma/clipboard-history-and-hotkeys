@@ -13,11 +13,13 @@ An extension that lets you access previous clipboard items using shortcuts and c
 
 ## Clipboard Access for Web version
 
-When opening the web version of VS Code, you will be prompted for clipboard access; which needs to be granted for the extension to work.
+- When opening the web version of VS Code, you will be prompted for clipboard access; which needs to be granted for the extension to work.
+- If the access is given, the extension will start and a notification saying `Web version of Clipboard History & Hotkeys 📋 is now running!` will be displayed on the bottom right of the editor. 
+  > ***Note***: A similar notification will be shown for the desktop version of the extension as well. 
 
 ## Contribution Guide
 
-- Feel free to create [issues](https://github.com/rohan-v8rma/clipboard-history-and-hotkeys/issues) if you encounter bugs.
+- Feel free to create [issues](https://github.com/rohan-v8rma/clipboard-history-and-hotkeys/issues) if you encounter bugs, or have feature requests.
 - Pull requests containing bug fixes and/or new features are welcome!
 - I've added the `.vscode/launch.json`, which will help you debug and test the extension.
 
