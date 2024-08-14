@@ -16,7 +16,7 @@ export default defineConfig([
     // Optional: sample workspace to open
     // workspaceFolder: `${__dirname}/sampleWorkspace`,
     launchArgs: [
-        '--extensionTestsPath=./out/test/browser/index',
+        '--extensionTestsPath=./out/test/browser/extensionTests.js',
     ]
   },
   {
@@ -29,7 +29,7 @@ export default defineConfig([
     // Optional: sample workspace to open
     // workspaceFolder: `${__dirname}/sampleWorkspace`,
     launchArgs: [
-        '--extensionTestsPath=./out/test/main/index',
+        '--extensionTestsPath=./out/test/main/extensionTests.js',
     ]
   },
   // you can specify additional test configurations if necessary
