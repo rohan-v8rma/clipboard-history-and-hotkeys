@@ -23,6 +23,12 @@ async function main() {
     platform: 'node',
     plugins: [
       /* add to the end of plugins array */
+      // polyfillNode({
+      //   globals: {
+      //     global: false,
+      //     navigator: true,
+      //   }
+      // }),
       esbuildProblemMatcherPlugin
     ],
     sourcemap: !production,
@@ -38,6 +44,11 @@ async function main() {
     outfile: 'out/test/main/extensionTests.js',
     // Node.js global to browser globalThis
     plugins: [
+      polyfillNode({
+        globals: {
+          navigator: true,
+        }
+      }),
       getTestBundlePlugin('main'),
       /* add to the end of plugins array */
       esbuildProblemMatcherPlugin,
@@ -92,10 +103,10 @@ async function main() {
       ...mainBuildOptions,
       watch: watch
     }),
-    // esbuild.build({
-    //   ...mainTestBuildOptions,
-    //   watch: watch
-    // }),
+    esbuild.build({
+      ...mainTestBuildOptions,
+      watch: watch
+    }),
     esbuild.build({
       ...browserTestBuildOptions,
       watch: watch
