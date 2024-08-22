@@ -11,9 +11,11 @@ const watch = process.argv.includes('--watch');
 async function main() {
   const mainBuildOptions = {
     bundle: true,
+    define: {
+      global: 'globalThis',
+    },
     entryPoints: [
       'src/main/extension.ts',
-      // 'src/test/main/extensionTests.ts'
     ],
     external: ['vscode'],
     format: 'cjs',
@@ -23,7 +25,6 @@ async function main() {
     // outfile: 'out/main/extension.js',
     platform: 'node',
     plugins: [
-      // getTestBundlePlugin('main'),
       /* add to the end of plugins array */
       esbuildProblemMatcherPlugin
     ],
@@ -31,15 +32,25 @@ async function main() {
     sourcesContent: false,
   };
 
+  const mainTestBuildOptions = {
+    ...mainBuildOptions,
+    entryPoints: [
+      'src/test/main/extensionTests.ts'
+    ],
+    outdir: undefined,
+    outfile: 'out/test/main/extensionTests.js',
+    // Node.js global to browser globalThis
+    plugins: [
+      getTestBundlePlugin('main'),
+      /* add to the end of plugins array */
+      esbuildProblemMatcherPlugin,
+    ],
+  };
+
   const browserBuildOptions = {
     bundle: true,
-    // Node.js global to browser globalThis
-    define: {
-      global: 'globalThis',
-    },
     entryPoints: [
       'src/browser/extension.ts',
-      // 'src/test/browser/extensionTests.ts'
     ],
     external: ['vscode'],
     format: 'cjs',
@@ -49,18 +60,47 @@ async function main() {
     // outfile: 'out/browser/extension.js',
     platform: 'browser',
     plugins: [
+      polyfillNode({
+        globals: {
+          navigator: true,
+        }
+      }),
       /* add to the end of plugins array */
-      // polyfillNode({}),
-      // getTestBundlePlugin('browser'),
       esbuildProblemMatcherPlugin,
     ],
     sourcemap: !production,
     sourcesContent: false,
   };
 
+  const browserTestBuildOptions = {
+    ...browserBuildOptions,
+    entryPoints: [
+      'src/test/browser/extensionTests.ts'
+    ],
+    outdir: undefined,
+    outfile: 'out/test/browser/extensionTests.js',
+    plugins: [
+      polyfillNode({
+        globals: {
+          navigator: true,
+        }
+      }),
+      getTestBundlePlugin('browser'),
+      esbuildProblemMatcherPlugin
+    ]
+  };
+
   Promise.all([
+    // esbuild.build({
+    //   ...mainBuildOptions,
+    //   watch: watch
+    // }),
+    // esbuild.build({
+    //   ...mainTestBuildOptions,
+    //   watch: watch
+    // }),
     esbuild.build({
-      ...mainBuildOptions,
+      ...browserTestBuildOptions,
       watch: watch
     }),
     esbuild.build({
@@ -121,8 +161,6 @@ const getTestBundlePlugin = (
     }
   };
 };
-
-
 
 /**
  * @type {import('esbuild').Plugin}

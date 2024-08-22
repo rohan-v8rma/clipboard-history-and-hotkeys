@@ -9,11 +9,12 @@ import {
   onClipboardChange 
 } from '../utils';
 
-import clipboardListener from './clipboard-event';
-
 import {
-  EXTENSION_NAME 
+  EXTENSION_NAME,
+  EXTENSION_NOTIFICATION, 
 } from '../constants';
+
+import clipboardListener from './clipboard-event';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -21,7 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // To start listening
   clipboardListener.startListening();
 
-  vscode.window.showInformationMessage('Clipboard History & Hotkeys 📋 is now running!',);
+  vscode.window.showInformationMessage(EXTENSION_NOTIFICATION);
   
   const {
     triggerCharacter

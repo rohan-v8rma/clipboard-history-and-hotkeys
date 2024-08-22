@@ -10,13 +10,14 @@ import {
 } from '../utils';
 
 import {
-  EXTENSION_NAME 
+  EXTENSION_NAME,
+  WEB_EXTENSION_NOTIFICATION
 } from '../constants';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-  vscode.window.showInformationMessage('Web version of Clipboard History & Hotkeys 📋 is now running!',);
+  vscode.window.showInformationMessage(WEB_EXTENSION_NOTIFICATION);
 
   const {
     triggerCharacter

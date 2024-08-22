@@ -21,6 +21,22 @@
 			"preLaunchTask": "npm: watch",
 		},
 		{
+			"name": "Test: Browser",
+			"type": "extensionHost",
+			"debugWebWorkerHost": true,
+			"request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionTestsPath=${workspaceFolder}/out/test/browser/extensionTests.js",
+				"--extensionDevelopmentKind=web",
+				"--disable-extensions"
+			],
+			"preLaunchTask": "npm: watch",
+			"outFiles": [
+				"${workspaceFolder}/out/test/browser/extensionTests.js"
+			]
+		},
+		{
 			"name": "Main",
 			"type": "extensionHost",
 			"request": "launch",
@@ -42,10 +58,10 @@
 				"--extensionTestsPath=${workspaceFolder}/out/test/main/extensionTests.js",
 				"--disable-extensions"
 			],
+			"preLaunchTask": "npm: watch",
 			"outFiles": [
-				"${workspaceFolder}/out/test/main/**/*.test.js"
-			],
-			"preLaunchTask": "npm: pretest"
+				"${workspaceFolder}/out/test/main/extensionTests.js"
+			]
 		}
 	]
 }
