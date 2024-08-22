@@ -11,9 +11,6 @@ const watch = process.argv.includes('--watch');
 async function main() {
   const mainBuildOptions = {
     bundle: true,
-    define: {
-      global: 'globalThis',
-    },
     entryPoints: [
       'src/main/extension.ts',
     ],
@@ -91,10 +88,10 @@ async function main() {
   };
 
   Promise.all([
-    // esbuild.build({
-    //   ...mainBuildOptions,
-    //   watch: watch
-    // }),
+    esbuild.build({
+      ...mainBuildOptions,
+      watch: watch
+    }),
     // esbuild.build({
     //   ...mainTestBuildOptions,
     //   watch: watch
