@@ -104,7 +104,22 @@ export async function pollClipboard(args: {
     numberOfClipboardItems
   );
 
-  const clipboardContent: string = await vscode.env.clipboard.readText();
+  let clipboardContent: string = (args.completionItems?.[0]?.label as string) ?? '';
+
+  /*
+  ? This is done since when the tab has not been acted on recently, 
+  ? OR the tab running the app is not in focus:
+  ? the browser clipboard API doesn't allow reading the clipboard since a malicious
+  ? site may read sensitive content copied from another tab, or any other application.
+
+  ! By putting this in a try-catch, we prevent unwanted error notifications.
+  */
+  try {
+    clipboardContent = await vscode.env.clipboard.readText();
+  }
+  catch(error) {
+    vscode.window.showInformationMessage('The web version of this extension doesn\'t capture clipboard changes when the VS Code tab isn\'t active.');
+  }
 
   if (
     // Seeing if the clipboard content is not empty.

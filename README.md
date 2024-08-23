@@ -39,7 +39,7 @@ If you have any requirements or dependencies, add a section describing those and
 
 This extension contributes the following settings:
 
-<!-- - `clipboard-history-and-hotkeys.clipboardPollInterval`: The intervals (in `ms`) at which the extension checks for new content in the clipboard. The minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure. -->
+- `clipboard-history-and-hotkeys.clipboardPollInterval`: The intervals (in `ms`) at which the extension checks for new content in the clipboard. The minimum possible value is `4ms` due to limitations of the Web API. Note that this is an approximate figure.
 - `clipboard-history-and-hotkeys.numberOfClipboardItems`: The number of clipboard items to store. Default value of `10` ensures all paste keybinds are functional.
 - `clipboard-history-and-hotkeys.triggerCharacter`: The character that needs to be typed, to trigger the completion dropdown.
 
