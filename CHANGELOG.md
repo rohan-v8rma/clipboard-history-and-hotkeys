@@ -24,10 +24,6 @@
 
 ## [0.1.1]
 
-### Added
-
-- 
-
 ### Changed
 
 - Name of extension
@@ -41,3 +37,36 @@
 ### Removed
 
 - Polling of clipboard to check for new items.
+- `clipboardPollInterval` property from extension contribution points.
+
+## [1.1.0]
+
+## Added
+
+- Test for seeing if hotkeys are working as expected.
+- `clearClipboard` command for clearing the clipboard.
+
+## [1.2.0]
+
+### Added
+
+- Browser version of the extension.
+- Proper configurations for `.vscode/launch.json` and `.vscode/tasks.json`
+- Notification for verifying that the extension is up and running.
+- `clipboardPollInterval` property into contribution points.
+
+## [1.3.0]
+
+### Added
+
+- Some amount of error handling for browser version of extension.
+
+## [1.4.0]
+
+### Added
+
+- Demo GIFs that show how to use the extension.
+
+### Changed 
+
+- Look of the icon of the extension.
